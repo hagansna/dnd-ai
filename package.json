@@ -15,8 +15,10 @@
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
+		"@skeletonlabs/skeleton": "^1.1.0",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.5.0",
+		"@tailwindcss/forms": "^0.5.3",
 		"@typescript-eslint/eslint-plugin": "^5.45.0",
 		"@typescript-eslint/parser": "^5.45.0",
 		"autoprefixer": "^10.4.14",
@@ -34,5 +36,10 @@
 		"vite": "^4.2.0",
 		"vitest": "^0.25.3"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"gpt3-tokenizer": "^1.1.5",
+		"openai": "^3.2.1",
+		"sse.js": "^0.6.1"
+	}
 }
