@@ -55,8 +55,10 @@ export const POST: RequestHandler = async ({ request }) => {
 		const pdfKeys = [
 			'ClassLevel',
 			'Background',
+			'Backstory',
+			'CharacterName',
 			'CharacterName 2',
-			'Race',
+			'Race ',
 			'Alignment',
 			'XP',
 			'Inspiration',
@@ -65,16 +67,16 @@ export const POST: RequestHandler = async ({ request }) => {
 			'AC',
 			'Initiative',
 			'Speed',
-			'PersonalityTraits',
+			'PersonalityTraits ',
 			'STRmod',
 			'HPMax',
 			'ST Strength',
 			'DEX',
 			'ST Dexterity',
-			'ST Consitution',
+			'ST Constitution',
 			'HPCurrent',
 			'Ideals',
-			'DEXmod',
+			'DEXmod ',
 			'ST Intelligence',
 			'ST Wisdom',
 			'ST Charisma',
@@ -83,12 +85,10 @@ export const POST: RequestHandler = async ({ request }) => {
 			'CONmod',
 			'Flaws',
 			'INT',
-			'Description',
-			'History',
 			'INTmod',
 			'Wpn Name',
-			'AtkBonus',
-			'Wpn1 Damange',
+			'Wpn1 AtkBonus',
+			'Wpn1 Damage',
 			'WIS',
 			'WISmod',
 			'CHA',
@@ -99,9 +99,15 @@ export const POST: RequestHandler = async ({ request }) => {
 			'GP',
 			'PP',
 			'Equipment',
-			'Features and Traits'
+			'Features and Traits',
+			'Age',
+			'Height',
+			'Weight',
+			'Eyes',
+			'Skin',
+			'Hair'
 		];
-		const prompt = `You are a Dungeons and Dragons expert who can provide help with character creation. You will respond in JSON format the following keys: ${pdfKeys}.`;
+		const prompt = `You are a Dungeons and Dragons expert who can create characters with whatever information is provided. You will always respond with a unique character in JSON format the following keys: ${pdfKeys}.`;
 		tokenCount += getTokens(prompt);
 
 		if (tokenCount >= 10000) {
@@ -117,7 +123,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			model: 'gpt-3.5-turbo',
 			messages,
 			temperature: 0.9,
-			stream: true
+			stream: false
 		};
 
 		const chatResponse = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -134,7 +140,9 @@ export const POST: RequestHandler = async ({ request }) => {
 			throw new Error(err.error.message);
 		}
 
-		const pdfDoc = await fillForm();
+		const chatRes = await chatResponse.json();
+		const chatResContent = chatRes.choices[0].message.content;
+		const pdfDoc = await fillForm(chatResContent, pdfKeys);
 
 		return new Response(pdfDoc, {
 			headers: {
