@@ -38,6 +38,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@sveltejs/adapter-vercel": "^2.4.1",
 		"gpt3-tokenizer": "^1.1.5",
 		"openai": "^3.2.1",
 		"pdf-lib": "^1.17.1",
